@@ -1,12 +1,24 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the user model to whatever makes sense in this case
 const userSchema = new Schema({
   username: {
     type: String,
-    // unique: true -> Ideally, should be unique, but its up to you
   },
   password: String,
+  memberSince: Date,
+  registeredMoods: [
+    {
+      time: Date,
+      amOrPm: {
+        type: string,
+        enum: ["AM", "PM"],
+      },
+      mood: {
+        type : string, 
+        enum : ["sad","half-sad","neutral","half-happy","happy"]
+      }
+    }
+  ]
 });
 
 const User = model("User", userSchema);
