@@ -27,7 +27,9 @@ export default function NavBar(props) {
               <li>
                 <Link to="/login">Log In</Link>
               </li>
-              <li>Sign Up</li>
+              <li>
+                <Link to="/signup">Sign Up</Link>
+              </li>
             </>
           )}
         </ul>
