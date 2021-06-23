@@ -11,6 +11,7 @@ export default function NavBar(props) {
 
   return (
     <div>
+      <div>{props.user && <p>hi {props.user.username}</p>}</div>
       <div>
         <h1>MOOD</h1>
       </div>
