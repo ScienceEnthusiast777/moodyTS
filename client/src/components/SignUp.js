@@ -8,7 +8,7 @@ export default function SignUp(props) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("username :", username, "password: ", password, 'message: ', message);
+    console.log("username :", username, "password: ", password, 'message: ', message, 'props :', props);
   });
 
   const handleSubmit = (e) => {
@@ -18,8 +18,7 @@ export default function SignUp(props) {
         setMessage(response.message);
       } else {
         props.setUser(response);
-        const history = useHistory;
-        history.push("/");
+        props.history.push("/");
       }
     });
   };
