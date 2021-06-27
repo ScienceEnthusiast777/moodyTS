@@ -1,17 +1,22 @@
 var router = require("express").Router();
+const User = require("../models/User");
+const app = require("../app");
 
-router.get("/",(req, res, next)=> {
-    res.json({test: 'success from the index'});
-});
+// router.get("/",(req, res, next)=> {
+//     res.json({test: 'success from the index'});
+// });
 
-router.post("/",(req,res,next)=>{
-    const {mood} = req.body;
-    console.log(req.user._id, mood)
+router.put("/",(req,res,next)=>{
+    const {mood, time, amOrPm} = req.body;
+    const currentUser = req.user;
+    User.findByIdAndUpdate(currentUser, {$push: {registeredMoods: {mood, time, amOrPm}}})
+    .then((updatedUser)=>{
+        res.status(200).json(updatedUser.registeredMoods);
+    })
+    .catch((err)=>{res.json(err)})
+
 })
 
-
-// You put the next routes here 👇
-// example: router.use("/auth", authRoutes)
 module.exports = router;
 
 

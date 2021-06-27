@@ -3,8 +3,10 @@ import axios from "axios";
 
 export default function MoodSubmit() {
   const submitMood = (mood) => {
+    const timeStamp = new Date();
+    const amPm = timeStamp.getHours() >=12 ? "PM" : "AM"; 
     axios
-      .post("/api/moody/", { mood: mood })
+      .put("/api/moody/", { mood: mood, time: timeStamp, amOrPm: amPm })
       .then((response) => console.log(response));
   };
   return (
