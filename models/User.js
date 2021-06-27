@@ -10,11 +10,11 @@ const userSchema = new Schema({
     {
       time: Date,
       amOrPm: {
-        type: string,
+        type: String,
         enum: ["AM", "PM"],
       },
       mood: {
-        type : string, 
+        type : String, 
         enum : ["sad","half-sad","neutral","half-happy","happy"]
       }
     }

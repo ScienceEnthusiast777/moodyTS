@@ -25,17 +25,17 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={(props) => <Landing setUser={this.setUser} {...props} />}
+            render={(props) => <Landing user={this.state.user} setUser={this.setUser} {...props} />}
           />
           <Route
             exact
             path="/signup"
-            render={(props) => <SignUpLogIn setUser={this.setUser} {...props}/>}
+            render={(props) => <SignUpLogIn user={this.state.user} setUser={this.setUser} {...props}/>}
           />
           <Route
             exact
             path="/login"
-            render={(props) => <SignUpLogIn setUser={this.setUser} {...props}/>}
+            render={(props) => <SignUpLogIn user={this.state.user} setUser={this.setUser} {...props}/>}
           />
         </Switch>
       </div>

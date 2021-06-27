@@ -13,7 +13,7 @@ export default function NavBar(props) {
     <div>
       <div>{props.user && <p>hi {props.user.username}</p>}</div>
       <div>
-        <h1>MOOD</h1>
+      <img src="/moody-faces/moodylogo.jpg" alt="none" />
       </div>
       <div>
         <ul>
