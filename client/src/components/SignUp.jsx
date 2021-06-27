@@ -8,7 +8,16 @@ export default function SignUp(props) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("username :", username, "password: ", password, 'message: ', message, 'props :', props);
+    console.log(
+      "username :",
+      username,
+      "password length: ",
+      password.length,
+      "message: ",
+      message,
+      "props :",
+      props
+    );
   });
 
   const handleSubmit = (e) => {

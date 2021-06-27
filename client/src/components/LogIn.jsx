@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { login } from '../services/auth';
+import React, { useState, useEffect } from "react";
+import { login } from "../services/auth";
 
 export default function LogIn(props) {
   const [username, setUsername] = useState("");
@@ -7,7 +7,16 @@ export default function LogIn(props) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("username :", username, "password: ", password, 'message: ', message, 'props :', props);
+    console.log(
+      "username :",
+      username,
+      "password length: ",
+      password.length,
+      "message: ",
+      message,
+      "props :",
+      props
+    );
   });
 
   const handleSubmit = (e) => {

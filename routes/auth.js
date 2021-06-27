@@ -9,7 +9,7 @@ router.get("/test", (req,res,next)=>{
 })
 
 router.post("/signup", (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, timeStamp } = req.body;
   if (password.length < 8) {
     return res
       .status(400)
@@ -30,7 +30,7 @@ router.post("/signup", (req, res, next) => {
     } else {
       const salt = bcrypt.genSaltSync();
       const hash = bcrypt.hashSync(password, salt);
-      User.create({ username: username, password: hash }).then((newUser) => {
+      User.create({ username: username, password: hash, memberSince : timeStamp }).then((newUser) => {
         req.login(newUser, err=>{
           if(err){
             return res.status(500).json({message:"error logging in"})
