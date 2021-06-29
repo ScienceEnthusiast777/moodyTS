@@ -13,7 +13,6 @@ export default function Stats() {
 
   const getInitialDay = () => {
     let firstDay = moment(dateObject).startOf("month").format("d");
-    console.log(firstDay);
     return firstDay;
   };
 
@@ -26,6 +25,8 @@ export default function Stats() {
   }
 
   let monthDay = [];
+
+  console.log('days in month', dateObject.daysInMonth())
 
   for (let d = 1; d <= dateObject.daysInMonth(); d++) {
     monthDay.push(<td>{d}</td>);
@@ -49,15 +50,24 @@ export default function Stats() {
   });
 
   let wrappedDays = rows.map((d, i) => {
-    return <tr>{d}</tr>;
+    return <tr key={i}>{d}</tr>;
   });
 
-  return <div>
-    <table>
-      <thead>
-        <tr>{shortDaysName}</tr>
-      </thead>
-      <tbody>{wrappedDays}</tbody>
-    </table>
-  </div>;
+  const month = () => {
+    return dateObject.format("MMMM");
+  };
+
+  return (
+    <div>
+      <div>{month()} {dateObject.year()}</div>
+      <table>
+        <thead>
+          <tr>{shortDaysName}</tr>
+        </thead>
+        <tbody>{wrappedDays}</tbody>
+      </table>
+      <button onClick={()=>{setDateObject(moment(dateObject).set("month", dateObject.month()-1))}}>previous month</button>
+      <button onClick={()=>{setDateObject(moment(dateObject).set("month", dateObject.month()+1))}}>next month</button>
+    </div>
+  );
 }
