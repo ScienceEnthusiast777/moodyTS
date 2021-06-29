@@ -1,5 +1,6 @@
 import React from 'react'
 import MoodSubmit from '../components/MoodSubmit';
+import Stats from '../components/Stats';
 
 
 export default function Landing(props) {
@@ -10,6 +11,7 @@ export default function Landing(props) {
     </>) : 
     (<>
     <MoodSubmit/>
+    <Stats/>
     </>)}
     </div>
   )
