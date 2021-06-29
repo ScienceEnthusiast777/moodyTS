@@ -2,7 +2,6 @@
 import "./App.css";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Restricted from "./components/Restricted";
 import NavBar from "./components/NavBar";
 import SignUpLogIn from "./pages/SignUpLogIn";
 import Landing from "./pages/Landing";

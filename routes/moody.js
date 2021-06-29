@@ -11,7 +11,7 @@ router.put("/",(req,res,next)=>{
     const currentUser = req.user;
     User.findByIdAndUpdate(currentUser, {$push: {registeredMoods: {mood, time, amOrPm}}})
     .then((updatedUser)=>{
-        res.status(200).json(updatedUser.registeredMoods);
+        res.status(200).json("mood sent to database");
     })
     .catch((err)=>{res.json(err)})
 

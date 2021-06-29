@@ -1,14 +1,28 @@
 import React from "react";
 import axios from "axios";
+import { useState } from "react";
 
 export default function MoodSubmit() {
-  const submitMood = (mood) => {
+  const [submitted, setSubmitted] = useState(<></>);
+
+  function SubmissionFeedback() {
+    const timer = setTimeout(() => {
+      setSubmitted(<></>);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }
+  function submitMood(mood){
+    setSubmitted(<>MOOD SUBMITTED</>);
     const timeStamp = new Date();
-    const amPm = timeStamp.getHours() >=12 ? "PM" : "AM"; 
+    const amPm = timeStamp.getHours() >= 12 ? "PM" : "AM";
     axios
       .put("/api/moody/", { mood: mood, time: timeStamp, amOrPm: amPm })
-      .then((response) => console.log(response));
+      .then((response) => {
+        console.log(response);
+        SubmissionFeedback();
+      });
   };
+
   return (
     <div>
       <h3>What is your current mood </h3>
@@ -27,6 +41,7 @@ export default function MoodSubmit() {
       <button onClick={() => submitMood("sad")}>
         <img src="/moody-faces/sad.jpg" alt="sad" />
       </button>
+      {submitted}
     </div>
   );
 }

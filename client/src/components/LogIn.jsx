@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { login } from "../services/auth";
 
 export default function LogIn(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    console.log(
-      "username :",
-      username,
-      "password length: ",
-      password.length,
-      "message: ",
-      message,
-      "props :",
-      props
-    );
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,5 +1,6 @@
 import React from 'react'
-import MoodSubmit from '../components/MoodSubmit'
+import MoodSubmit from '../components/MoodSubmit';
+
 
 export default function Landing(props) {
   return (
