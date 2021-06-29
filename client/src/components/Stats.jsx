@@ -5,6 +5,33 @@ import { useState } from "react";
 export default function Stats() {
   const [dateObject, setDateObject] = useState(moment());
 
+  const blank = (
+    <>
+      <img src="/moody-faces/blank.jpg" alt="none" />
+    </>
+  );
+  const happy = (
+    <>
+      <img src="/moody-faces/happy.jpg" alt="none" />
+    </>
+  );const halfHappy = (
+    <>
+      <img src="/moody-faces/half-happy.jpg" alt="none" />
+    </>
+  );const neutral = (
+    <>
+      <img src="/moody-faces/neutral.jpg" alt="none" />
+    </>
+  );const halfSad = (
+    <>
+      <img src="/moody-faces/half-sad.jpg" alt="none" />
+    </>
+  );const sad = (
+    <>
+      <img src="/moody-faces/sad.jpg" alt="none" />
+    </>
+  );
+
   const shortDays = moment.weekdaysShort();
 
   const shortDaysName = shortDays.map((day) => {
@@ -21,15 +48,25 @@ export default function Stats() {
   let blankDays = [];
 
   for (let i = 0; i < initialDay; i++) {
-    blankDays.push(<td>{""}</td>);
+    blankDays.push(
+      <td>
+        {""}
+        {blank}
+      </td>
+    );
   }
 
   let monthDay = [];
 
-  console.log('days in month', dateObject.daysInMonth())
+  console.log("days in month", dateObject.daysInMonth());
 
   for (let d = 1; d <= dateObject.daysInMonth(); d++) {
-    monthDay.push(<td>{d}</td>);
+    monthDay.push(
+      <td>
+        {d}
+        {blank}
+      </td>
+    );
   }
 
   let allCalendarSlots = [...blankDays, ...monthDay];
@@ -59,15 +96,33 @@ export default function Stats() {
 
   return (
     <div>
-      <div>{month()} {dateObject.year()}</div>
+      <div>
+        {month()} {dateObject.year()}
+      </div>
       <table>
         <thead>
           <tr>{shortDaysName}</tr>
         </thead>
         <tbody>{wrappedDays}</tbody>
       </table>
-      <button onClick={()=>{setDateObject(moment(dateObject).set("month", dateObject.month()-1))}}>previous month</button>
-      <button onClick={()=>{setDateObject(moment(dateObject).set("month", dateObject.month()+1))}}>next month</button>
+      <button
+        onClick={() => {
+          setDateObject(
+            moment(dateObject).set("month", dateObject.month() - 1)
+          );
+        }}
+      >
+        previous month
+      </button>
+      <button
+        onClick={() => {
+          setDateObject(
+            moment(dateObject).set("month", dateObject.month() + 1)
+          );
+        }}
+      >
+        next month
+      </button>
     </div>
   );
 }
