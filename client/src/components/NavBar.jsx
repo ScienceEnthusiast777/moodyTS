@@ -10,7 +10,7 @@ export default function NavBar(props) {
   };
 
   return (
-    <div>
+    <div className="flex flex-rox justify-around pt-20">
       <div>{props.user && <p>hi {props.user.username}</p>}</div>
       <div>
       <img src="/moody-faces/moodylogo.jpg" alt="none" />
@@ -18,17 +18,17 @@ export default function NavBar(props) {
       <div>
         <ul>
           {props.user ? (
-            <li>
+            <li className="cursor-pointer border border-4 hover:border-black">
               <Link to="/" onClick={() => logoutHandler()}>
                 Log Out
               </Link>
             </li>
           ) : (
             <>
-              <li>
+              <li className="cursor-pointer border border-4 hover:border-black m-2">
                 <Link to="/login">Log In</Link>
               </li>
-              <li>
+              <li className="cursor-pointer border border-4 hover:border-black m-2">
                 <Link to="/signup">Sign Up</Link>
               </li>
             </>
