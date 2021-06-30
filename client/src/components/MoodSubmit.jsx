@@ -11,18 +11,21 @@ export default function MoodSubmit() {
     }, 2000);
     return () => clearTimeout(timer);
   }
-  function submitMood(mood){
-    setSubmitted(<>MOOD SUBMITTED</>);
+  function submitMood(mood) {
+    // setSubmitted(<>MOOD SUBMITTED</>);
     const timeStamp = new Date();
     const amPm = timeStamp.getHours() >= 12 ? "PM" : "AM";
     axios
       .put("/api/moody/", { mood: mood, amOrPm: amPm })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.message);
+        setSubmitted(<>{response.data.message}</>);
         SubmissionFeedback();
       })
-      .catch((err)=>{console.log(err)});
-  };
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div>

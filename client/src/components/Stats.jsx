@@ -1,41 +1,66 @@
 import React from "react";
 import moment from "moment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Mongoose } from "mongoose";
 
 export default function Stats() {
   const [dateObject, setDateObject] = useState(moment());
+  const [userMoods, setUserMoods] = useState({});
 
-  const blank = (
-    <>
-      <img src="/moody-faces/blank.jpg" alt="none" />
-    </>
-  );
-  const happy = (
-    <>
-      <img src="/moody-faces/happy.jpg" alt="none" />
-    </>
-  );const halfHappy = (
-    <>
-      <img src="/moody-faces/half-happy.jpg" alt="none" />
-    </>
-  );const neutral = (
-    <>
-      <img src="/moody-faces/neutral.jpg" alt="none" />
-    </>
-  );const halfSad = (
-    <>
-      <img src="/moody-faces/half-sad.jpg" alt="none" />
-    </>
-  );const sad = (
-    <>
-      <img src="/moody-faces/sad.jpg" alt="none" />
-    </>
-  );
+  useEffect(() => {
+    fetchMoods();
+  }, []);
+
+  const fetchMoods = () => {
+    axios
+      .get("/api/moody/")
+      .then((response) => {
+        setUserMoods(response.data.moods);
+        console.log(userMoods)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const faceIcons = {
+    blank : (
+      <>
+        <img src="/moody-faces/blank.jpg" alt="none" />
+      </>
+    ),
+    happy : (
+      <>
+        <img src="/moody-faces/happy.jpg" alt="none" />
+      </>
+    ),
+    "half-happy" : (
+      <>
+        <img src="/moody-faces/half-happy.jpg" alt="none" />
+      </>
+    ),
+    neutral : (
+      <>
+        <img src="/moody-faces/neutral.jpg" alt="none" />
+      </>
+    ),
+    "half-sad" : (
+      <>
+        <img src="/moody-faces/half-sad.jpg" alt="none" />
+      </>
+    ),
+    sad : (
+      <>
+        <img src="/moody-faces/sad.jpg" alt="none" />
+      </>
+    )
+  }
 
   const shortDays = moment.weekdaysShort();
 
-  const shortDaysName = shortDays.map((day) => {
-    return <th key={day}>{day}</th>;
+  const shortDaysName = shortDays.map((day, i) => {
+    return <th key={day + i}>{day}</th>;
   });
 
   const getInitialDay = () => {
@@ -51,20 +76,35 @@ export default function Stats() {
     blankDays.push(
       <td>
         {""}
-        {blank}
+        {faceIcons.blank}
+        {faceIcons.blank}
       </td>
     );
   }
 
   let monthDay = [];
 
-  console.log("days in month", dateObject.daysInMonth());
-
   for (let d = 1; d <= dateObject.daysInMonth(); d++) {
+    let am = faceIcons.blank;
+    let pm = faceIcons.blank;
+
+    if (Object.keys(userMoods).length > 0) {
+      for(let i = 0 ; i < userMoods.length; i++){
+        if(moment(userMoods[i].time).month() === dateObject.month() && moment(userMoods[i].time).date() === d){
+          if(userMoods[i].amOrPm === "AM"){
+            am = faceIcons[userMoods[i].mood]
+          }
+          if(userMoods[i].amOrPm === "PM"){
+            pm = faceIcons[userMoods[i].mood]
+          }
+        }
+      }
+    }
     monthDay.push(
       <td>
         {d}
-        {blank}
+        {am}
+        {pm}
       </td>
     );
   }
@@ -87,7 +127,6 @@ export default function Stats() {
   });
 
   let wrappedDays = rows.map((d, i) => {
-    console.log(i)
     return <tr key={i}>{d}</tr>;
   });
 

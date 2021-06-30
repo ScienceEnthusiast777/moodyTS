@@ -3,9 +3,15 @@ const User = require("../models/User");
 const app = require("../app");
 const { exists } = require("../models/User");
 
-// router.get("/",(req, res, next)=> {
-//     res.json({test: 'success from the index'});
-// });
+router.get("/", (req, res, next) => {
+  User.findOne(req.user)
+    .then((user) => {
+      res.status(200).json({ moods: user.registeredMoods });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 router.put("/", (req, res, next) => {
   const { mood, amOrPm } = req.body;
@@ -14,7 +20,7 @@ router.put("/", (req, res, next) => {
   User.findOne(req.user).then((user) => {
     let existsAlready = false;
     if (user.registeredMoods.length !== 0) {
-    console.log(user.registeredMoods.length)
+      console.log(user.registeredMoods.length);
 
       for (let thisMood of user.registeredMoods) {
         console.log(thisMood);
@@ -28,7 +34,11 @@ router.put("/", (req, res, next) => {
     }
     if (existsAlready) {
       return res.json({
-        message: String(`you have already submitted your mood for ${amOrPm}`),
+        message: String(
+          `you have already submitted your mood for ${
+            amOrPm === "AM" ? "this morning" : "this afternoon/evening"
+          }`
+        ),
       });
     } else {
       User.findByIdAndUpdate(currentUser, {
@@ -42,30 +52,6 @@ router.put("/", (req, res, next) => {
         });
     }
   });
-  // User.findOne(req.user)
-  //   .then((user) => {
-  //     for (let thisMood of user.registeredMoods) {
-  //       if (
-  //         compareDate(new Date(), thisMood.time) &&
-  //         amOrPm === thisMood.amOrPm
-  //       ) {
-  //         return res
-  //           // .status(400)
-  //           .json({
-  //             message: `you have already submitted your mood for ${amOrPm}`,
-  //           });
-  //       } else {
-  //         User.findByIdAndUpdate(currentUser, {
-  //           $push: { registeredMoods: { mood, time, amOrPm } },
-  //         }).then((updatedUser) => {
-  //           res.status(200).json("mood sent to database");
-  //         });
-  //       }
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     res.json(err);
-  //   });
 });
 
 const compareDate = (firstDate, secondDate) => {
