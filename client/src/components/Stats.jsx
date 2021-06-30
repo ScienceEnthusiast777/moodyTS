@@ -91,7 +91,7 @@ export default function Stats() {
       for (let i = 0; i < userMoods.length; i++) {
         if (
           moment(userMoods[i].time).month() === dateObject.month() &&
-          moment(userMoods[i].time).date() === d
+          moment(userMoods[i].time).date() === d && moment(userMoods[i]).year() === dateObject.year()
         ) {
           if (userMoods[i].amOrPm === "AM") {
             am = faceIcons[userMoods[i].mood];

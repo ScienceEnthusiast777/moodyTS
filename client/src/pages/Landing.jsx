@@ -9,7 +9,7 @@ export default function Landing(props) {
         <>
           <div>
             <p>
-              welcome to MOOD, where you can keep track of your mood throughout
+              welcome to MOODY, where you can keep track of your mood throughout
               the day
             </p>
           </div>
