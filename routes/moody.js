@@ -8,47 +8,71 @@ const { exists } = require("../models/User");
 // });
 
 router.put("/", (req, res, next) => {
-  const { mood, time, amOrPm } = req.body;
+  const { mood, amOrPm } = req.body;
+  time = new Date();
   const currentUser = req.user;
-  User.findOne(req.user)
-    .then((user) => {
+  User.findOne(req.user).then((user) => {
+    let existsAlready = false;
+    if (user.registeredMoods.length !== 0) {
+    console.log(user.registeredMoods.length)
+
       for (let thisMood of user.registeredMoods) {
+        console.log(thisMood);
         if (
           compareDate(new Date(), thisMood.time) &&
           amOrPm === thisMood.amOrPm
         ) {
-          return res
-            // .status(400)
-            .json({
-              message: `you have already submitted your mood for ${amOrPm}`,
-            });
-        } else {
-          User.findByIdAndUpdate(currentUser, {
-            $push: { registeredMoods: { mood, time, amOrPm } },
-          }).then((updatedUser) => {
-            res.status(200).json("mood sent to database");
-          });
+          existsAlready = true;
         }
       }
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    }
+    if (existsAlready) {
+      return res.json({
+        message: String(`you have already submitted your mood for ${amOrPm}`),
+      });
+    } else {
+      User.findByIdAndUpdate(currentUser, {
+        $push: { registeredMoods: { mood, time, amOrPm } },
+      })
+        .then((updatedUser) => {
+          res.status(200).json({ message: "mood submitted" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
+  // User.findOne(req.user)
+  //   .then((user) => {
+  //     for (let thisMood of user.registeredMoods) {
+  //       if (
+  //         compareDate(new Date(), thisMood.time) &&
+  //         amOrPm === thisMood.amOrPm
+  //       ) {
+  //         return res
+  //           // .status(400)
+  //           .json({
+  //             message: `you have already submitted your mood for ${amOrPm}`,
+  //           });
+  //       } else {
+  //         User.findByIdAndUpdate(currentUser, {
+  //           $push: { registeredMoods: { mood, time, amOrPm } },
+  //         }).then((updatedUser) => {
+  //           res.status(200).json("mood sent to database");
+  //         });
+  //       }
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     res.json(err);
+  //   });
 });
 
-const compareDate = (first, second) => {
+const compareDate = (firstDate, secondDate) => {
   return (
-    first.getFullYear() === second.getFullYear() &&
-    first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate()
-  );
-  console.log(
-    first.getFullYear(),
-    first.getMonth(),
-    first.getDate(),
-    second.getFullYear(),
-    second.getMonth(),
-    second.getDate()
+    firstDate.getFullYear() === secondDate.getFullYear() &&
+    firstDate.getMonth() === secondDate.getMonth() &&
+    firstDate.getDate() === secondDate.getDate()
   );
 };
 

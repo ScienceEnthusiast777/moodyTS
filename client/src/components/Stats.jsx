@@ -87,6 +87,7 @@ export default function Stats() {
   });
 
   let wrappedDays = rows.map((d, i) => {
+    console.log(i)
     return <tr key={i}>{d}</tr>;
   });
 

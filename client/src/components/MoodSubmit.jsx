@@ -16,11 +16,12 @@ export default function MoodSubmit() {
     const timeStamp = new Date();
     const amPm = timeStamp.getHours() >= 12 ? "PM" : "AM";
     axios
-      .put("/api/moody/", { mood: mood, time: timeStamp, amOrPm: amPm })
+      .put("/api/moody/", { mood: mood, amOrPm: amPm })
       .then((response) => {
         console.log(response);
         SubmissionFeedback();
-      });
+      })
+      .catch((err)=>{console.log(err)});
   };
 
   return (
