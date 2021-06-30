@@ -18,26 +18,28 @@ export default function LogIn(props) {
     });
   };
   return (
-    <div>
-      <h1>Login to your Account</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
+    <div className="m-5">
+      <h1 className="font-bold">Login to your Account</h1>
+      <form className="flex flex-col w-52" onSubmit={handleSubmit}>
+        <label htmlFor="username">Username: </label>
         <input
+          className="border border-black mr-5"
           id="username"
           type="text"
           name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Password: </label>
         <input
+          className="border border-black mr-5"
           id="password"
           type="password"
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button className="cursor-pointer border hover:border-black mt-2 mb-2 p-2 w-44" type="submit">Login</button>
       </form>
       <p>{message}</p>
     </div>

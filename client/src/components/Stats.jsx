@@ -2,7 +2,6 @@ import React from "react";
 import moment from "moment";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Mongoose } from "mongoose";
 
 export default function Stats() {
   const [dateObject, setDateObject] = useState(moment());
@@ -10,14 +9,14 @@ export default function Stats() {
 
   useEffect(() => {
     fetchMoods();
-  }, []);
+  }, [dateObject]);
 
   const fetchMoods = () => {
     axios
       .get("/api/moody/")
       .then((response) => {
         setUserMoods(response.data.moods);
-        console.log(userMoods)
+        console.log(userMoods);
       })
       .catch((err) => {
         console.log(err);
@@ -25,37 +24,37 @@ export default function Stats() {
   };
 
   const faceIcons = {
-    blank : (
+    blank: (
       <>
-        <img src="/moody-faces/blank.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/blank.jpg" alt="none" />
       </>
     ),
-    happy : (
+    happy: (
       <>
-        <img src="/moody-faces/happy.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/happy.jpg" alt="none" />
       </>
     ),
-    "half-happy" : (
+    "half-happy": (
       <>
-        <img src="/moody-faces/half-happy.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/half-happy.jpg" alt="none" />
       </>
     ),
-    neutral : (
+    neutral: (
       <>
-        <img src="/moody-faces/neutral.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/neutral.jpg" alt="none" />
       </>
     ),
-    "half-sad" : (
+    "half-sad": (
       <>
-        <img src="/moody-faces/half-sad.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/half-sad.jpg" alt="none" />
       </>
     ),
-    sad : (
+    sad: (
       <>
-        <img src="/moody-faces/sad.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/sad.jpg" alt="none" />
       </>
-    )
-  }
+    ),
+  };
 
   const shortDays = moment.weekdaysShort();
 
@@ -89,19 +88,22 @@ export default function Stats() {
     let pm = faceIcons.blank;
 
     if (Object.keys(userMoods).length > 0) {
-      for(let i = 0 ; i < userMoods.length; i++){
-        if(moment(userMoods[i].time).month() === dateObject.month() && moment(userMoods[i].time).date() === d){
-          if(userMoods[i].amOrPm === "AM"){
-            am = faceIcons[userMoods[i].mood]
+      for (let i = 0; i < userMoods.length; i++) {
+        if (
+          moment(userMoods[i].time).month() === dateObject.month() &&
+          moment(userMoods[i].time).date() === d
+        ) {
+          if (userMoods[i].amOrPm === "AM") {
+            am = faceIcons[userMoods[i].mood];
           }
-          if(userMoods[i].amOrPm === "PM"){
-            pm = faceIcons[userMoods[i].mood]
+          if (userMoods[i].amOrPm === "PM") {
+            pm = faceIcons[userMoods[i].mood];
           }
         }
       }
     }
     monthDay.push(
-      <td>
+      <td className="border border-black">
         {d}
         {am}
         {pm}
@@ -127,7 +129,11 @@ export default function Stats() {
   });
 
   let wrappedDays = rows.map((d, i) => {
-    return <tr key={i}>{d}</tr>;
+    return (
+      <tr className="border border-black" key={i}>
+        {d}
+      </tr>
+    );
   });
 
   const month = () => {
@@ -135,34 +141,38 @@ export default function Stats() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col place-items-center font-bold">
+      <div>
+        <button
+          className="cursor-pointer border border-4 hover:border-black m-2 p-2"
+          onClick={() => {
+            setDateObject(
+              moment(dateObject).set("month", dateObject.month() - 1)
+            );
+          }}
+        >
+          previous
+        </button>
+        <button
+          className="cursor-pointer border hover:border-black m-2 p-2"
+          onClick={() => {
+            setDateObject(
+              moment(dateObject).set("month", dateObject.month() + 1)
+            );
+          }}
+        >
+          next
+        </button>
+      </div>
       <div>
         {month()} {dateObject.year()}
       </div>
-      <table>
+      <table className="table-auto border-collapse border border-black mb-20">
         <thead>
           <tr>{shortDaysName}</tr>
         </thead>
         <tbody>{wrappedDays}</tbody>
       </table>
-      <button
-        onClick={() => {
-          setDateObject(
-            moment(dateObject).set("month", dateObject.month() - 1)
-          );
-        }}
-      >
-        previous month
-      </button>
-      <button
-        onClick={() => {
-          setDateObject(
-            moment(dateObject).set("month", dateObject.month() + 1)
-          );
-        }}
-      >
-        next month
-      </button>
     </div>
   );
 }
