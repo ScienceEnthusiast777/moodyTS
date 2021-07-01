@@ -1,8 +1,19 @@
-import React from "react";
+import React, {FC} from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../services/auth";
 
-export default function NavBar(props) {
+type User = {
+  username : string, 
+  password ? : string
+}
+
+interface INavProps{
+  user : User,
+  setUser : (user: User | null) => void;
+}
+
+const NavBar : FC<INavProps> = (props) => {
+
   const logoutHandler = () => {
     logout().then(() => {
       props.setUser(null);
@@ -38,3 +49,5 @@ export default function NavBar(props) {
     </div>
   );
 }
+
+export default NavBar; 
