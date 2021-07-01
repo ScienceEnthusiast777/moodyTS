@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Switch, Route} from 'react-router-dom';
+import NavBar from "./components/NavBar";
+import SignUpLogIn from "./pages/SignUpLogIn";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Landing from "./pages/Landing";
+
+
+type AppProps = {
+  className : string,
+  user: {}
+}
+
+class App extends React.Component<AppProps> {
+  state = {
+    user: this.props.user,
+  };
+  setUser = (user:{}) => {
+    this.setState({
+      user: user,
+    });
+  };
+
+  render() {
+    return (
+      <div className="container mx-auto font-mono">
+        <NavBar user={this.state.user} setUser={this.setUser} />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(props) => <Landing user={this.state.user} setUser={this.setUser} {...props} />}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={(props) => <SignUpLogIn user={this.state.user} setUser={this.setUser} {...props}/>}
+          />
+          <Route
+            exact
+            path="/login"
+            render={(props) => <SignUpLogIn user={this.state.user} setUser={this.setUser} {...props}/>}
+          />
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default App;
