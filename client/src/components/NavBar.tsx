@@ -1,19 +1,18 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../services/auth";
 
-type User  = {
-  username : string, 
-  password ? : string
+type User = {
+  username: string;
+  password?: string;
+};
+
+interface INavProps {
+  user: User;
+  setUser: (user: User | null) => void;
 }
 
-interface INavProps{
-  user : User,
-  setUser : (user: User | null) => void;
-}
-
-const NavBar : FC<INavProps> = (props) => {
-
+const NavBar: FC<INavProps> = (props) => {
   const logoutHandler = () => {
     logout().then(() => {
       props.setUser(null);
@@ -24,7 +23,7 @@ const NavBar : FC<INavProps> = (props) => {
     <div className="flex flex-rox justify-around pt-20">
       <div>{props.user && <p>hi {props.user.username}</p>}</div>
       <div>
-      <img src="/moody-faces/moodylogo.jpg" alt="none" />
+        <img src="/moody-faces/moodylogo.jpg" alt="none" />
       </div>
       <div>
         <ul>
@@ -48,6 +47,6 @@ const NavBar : FC<INavProps> = (props) => {
       </div>
     </div>
   );
-}
+};
 
-export default NavBar; 
+export default NavBar;

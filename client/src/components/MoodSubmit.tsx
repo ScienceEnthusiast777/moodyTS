@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-export default function MoodSubmit() {
+const MoodSubmit: FC<any> = () => {
   const [submitted, setSubmitted] = useState(<></>);
 
   function SubmissionFeedback() {
@@ -11,7 +11,7 @@ export default function MoodSubmit() {
     }, 2000);
     return () => clearTimeout(timer);
   }
-  function submitMood(mood) {
+  function submitMood(mood: string) {
     const timeStamp = new Date();
     const amPm = timeStamp.getHours() >= 12 ? "PM" : "AM";
     axios
@@ -28,7 +28,7 @@ export default function MoodSubmit() {
 
   return (
     <div className="flex flex-col place-items-center font-bold">
-        <h3 className="pt-10 pb-10">What is your current mood ?</h3>
+      <h3 className="pt-10 pb-10">What is your current mood ?</h3>
       <div className="flex flex-row justify-center pb-10">
         <button
           className="cursor-pointer border border-4 hover:border-black m-2"
@@ -72,4 +72,6 @@ export default function MoodSubmit() {
       {submitted}
     </div>
   );
-}
+};
+
+export default MoodSubmit;

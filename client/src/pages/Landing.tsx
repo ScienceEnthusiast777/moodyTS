@@ -1,8 +1,18 @@
-import React from "react";
+import React, {FC} from "react";
 import MoodSubmit from "../components/MoodSubmit";
 import Stats from "../components/Stats";
 
-export default function Landing(props) {
+type User  = {
+  username : string, 
+  password ? : string
+}
+
+interface ILandingProps{
+  user : User,
+  setUser : (user: User | null) => void;
+}
+
+const Landing : FC<ILandingProps> = (props) =>{
   return (
     <div className="flex flex-col place-items-center font-bold">
       {!props.user ? (
@@ -23,3 +33,5 @@ export default function Landing(props) {
     </div>
   );
 }
+
+export default Landing; 

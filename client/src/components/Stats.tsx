@@ -1,22 +1,32 @@
-import React from "react";
+import React, { FC } from "react";
 import moment from "moment";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function Stats() {
+const Stats: FC<any> = () => {
   const [dateObject, setDateObject] = useState(moment());
-  const [userMoods, setUserMoods] = useState({});
+  const [userMoods, setUserMoods] = useState<Moods | []>([]);
+
+  type Moods = Array<Mood>;
+
+  type Mood = {
+    time: Date;
+    amOrPm: "AM" | "PM";
+    mood: "sad" | "half-sad" | "neutral" | "half-happy" | "happy";
+  };
 
   useEffect(() => {
     fetchMoods();
   }, [dateObject]);
 
   const fetchMoods = () => {
+    let returnedMoods: Moods;
     axios
       .get("/api/moody/")
       .then((response) => {
-        setUserMoods(response.data.moods);
-        console.log(userMoods);
+        returnedMoods = response.data.moods;
+        console.log(returnedMoods)
+        setUserMoods(returnedMoods);
       })
       .catch((err) => {
         console.log(err);
@@ -26,32 +36,32 @@ export default function Stats() {
   const faceIcons = {
     blank: (
       <>
-        <img className="w-10" src="/moody-faces/blank.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/blank.jpg" alt="blank" />
       </>
     ),
     happy: (
       <>
-        <img className="w-10" src="/moody-faces/happy.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/happy.jpg" alt="happy" />
       </>
     ),
     "half-happy": (
       <>
-        <img className="w-10" src="/moody-faces/half-happy.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/half-happy.jpg" alt="half-happy" />
       </>
     ),
     neutral: (
       <>
-        <img className="w-10" src="/moody-faces/neutral.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/neutral.jpg" alt="neutral" />
       </>
     ),
     "half-sad": (
       <>
-        <img className="w-10" src="/moody-faces/half-sad.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/half-sad.jpg" alt="half-sad" />
       </>
     ),
     sad: (
       <>
-        <img className="w-10" src="/moody-faces/sad.jpg" alt="none" />
+        <img className="w-10" src="/moody-faces/sad.jpg" alt="sad" />
       </>
     ),
   };
@@ -62,9 +72,9 @@ export default function Stats() {
     return <th key={day + i}>{day}</th>;
   });
 
-  const getInitialDay = () => {
+  const getInitialDay = (): number => {
     let firstDay = moment(dateObject).startOf("month").format("d");
-    return firstDay;
+    return parseInt(firstDay);
   };
 
   let initialDay = getInitialDay();
@@ -87,11 +97,12 @@ export default function Stats() {
     let am = faceIcons.blank;
     let pm = faceIcons.blank;
 
-    if (Object.keys(userMoods).length > 0) {
-      for (let i = 0; i < userMoods.length; i++) {
+    if (userMoods.length > 0) {
+      for (let i = 0; i < Object.keys(userMoods).length; i++) {
         if (
           moment(userMoods[i].time).month() === dateObject.month() &&
-          moment(userMoods[i].time).date() === d && moment(userMoods[i]).year() === dateObject.year()
+          moment(userMoods[i].time).date() === d &&
+          moment(userMoods[i].time).year() === dateObject.year()
         ) {
           if (userMoods[i].amOrPm === "AM") {
             am = faceIcons[userMoods[i].mood];
@@ -112,8 +123,8 @@ export default function Stats() {
   }
 
   let allCalendarSlots = [...blankDays, ...monthDay];
-  let rows = [];
-  let cells = [];
+  let rows : Array<JSX.Element[]> = [];
+  let cells : JSX.Element[] = [];
 
   allCalendarSlots.forEach((row, i) => {
     if (i % 7 !== 0) {
@@ -175,4 +186,6 @@ export default function Stats() {
       </table>
     </div>
   );
-}
+};
+
+export default Stats;
