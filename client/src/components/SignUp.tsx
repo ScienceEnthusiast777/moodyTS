@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
+import { Route, RouteComponentProps } from "react-router";
 import { signup } from "../services/auth";
 
-export default function SignUp(props) {
+type User = {
+  username: string;
+  password?: string;
+};
+
+interface ISignUpProps extends RouteComponentProps<any> {
+  user: User;
+  setUser: (user: User | null) => void;
+}
+
+const SignUp: FC<ISignUpProps> = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     signup(username, password).then((response) => {
       if (response.message) {
@@ -49,4 +60,5 @@ export default function SignUp(props) {
       <p>{message}</p>
     </div>
   );
-}
+};
+export default SignUp;

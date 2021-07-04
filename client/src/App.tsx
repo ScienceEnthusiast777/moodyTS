@@ -3,20 +3,23 @@ import './App.css';
 import {Switch, Route} from 'react-router-dom';
 import NavBar from "./components/NavBar";
 import SignUpLogIn from "./pages/SignUpLogIn";
-
 import Landing from "./pages/Landing";
 
+type User = {
+  username : string, 
+  password ? : string
+}
 
 type AppProps = {
   className : string,
-  user: {}
+  user: User
 }
 
 class App extends React.Component<AppProps> {
   state = {
     user: this.props.user,
   };
-  setUser = (user:{}) => {
+  setUser = (user : User | null) => {
     this.setState({
       user: user,
     });

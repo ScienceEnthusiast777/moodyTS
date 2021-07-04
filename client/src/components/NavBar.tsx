@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../services/auth";
 
-type User = {
+type User  = {
   username : string, 
   password ? : string
 }
