@@ -20,7 +20,7 @@ const NavBar: FC<INavProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-rox justify-around pt-20">
+    <div className="flex flex-row justify-around pt-20">
       <div>{props.user && <p>hi {props.user.username}</p>}</div>
       <div>
         <img src="/moody-faces/moodylogo.jpg" alt="none" />
